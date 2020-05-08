@@ -83693,7 +83693,15 @@ namespace VULKAN_HPP_NAMESPACE
 #endif
     {
 #if defined(__linux__)
-      m_library = dlopen( "libvulkan.so", RTLD_NOW | RTLD_LOCAL );
+      m_library = dlopen( "libvulkan.so.1.2.140", RTLD_NOW | RTLD_LOCAL );
+      if (!m_library)
+      {
+        m_library = dlopen( "libvulkan.so.1", RTLD_NOW | RTLD_LOCAL );
+        if (!m_library)
+        {
+          m_library = dlopen( "libvulkan.so", RTLD_NOW | RTLD_LOCAL );
+        }
+      }
 #elif defined(__APPLE__)
       m_library = dlopen( "libvulkan.dylib", RTLD_NOW | RTLD_LOCAL );
 #elif defined(_WIN32)
